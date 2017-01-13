@@ -7,7 +7,7 @@ setwd("E:\\DataScience\\DEV\\ExData_Plotting1")
 ## set destination zip filename
 zipFileName <- "household_power_consumption.zip"
 ## download file
-download.file(url = "https://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip", zipFileName)
+download.file(url = "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip", zipFileName)
 ## unzip the zip file
 unzip(zipfile = zipFileName)
 
@@ -26,7 +26,9 @@ x
 ## sep is ; 
 
 ## read data in
-epc <- read.table(file = "household_power_consumption.txt", header = TRUE, sep = ";")
+epc <- read.table(file = "household_power_consumption.txt", header = TRUE, sep = ";",
+                  colClasses=c(rep("character", 2), rep("numeric",7)), 
+                  na="?")
 
 ## subsetting - We will only be using data from the dates 2007-02-01 and 2007-02-02
 feb2 <- subset(epc, Date == "1/2/2007" | Date == "2/2/2007" )
@@ -36,9 +38,6 @@ feb2 <- transform(feb2, myTime = strptime(paste(Date, Time, sep = " "), "%d/%m/%
 
 ## take a quick look at feb2
 head(feb2)
-
-## cast Global_active_power as numeric
-feb2$Global_active_power <- as.numeric(feb2$Global_active_power)
 
 ## Open png device;  create 'plot1.png' in the current working directory
 png(filename = "plot1.png", width = 480, height = 480)
